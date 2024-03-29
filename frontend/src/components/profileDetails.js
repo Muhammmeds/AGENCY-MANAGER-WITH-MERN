@@ -34,14 +34,14 @@ const ProfileDetails = ({profiles, setProfiles}) =>{
 return(
     <>
     {profiles.length > 0 ? profiles.map((profile)=>(
-        <div className='content' key={profile.id}> 
-        <p className='name'>{profile.firstname} {profile.lastname}</p> <button className='delete' onClick={()=>{deleteProfile(profile.id)}}>🗑️</button>
-        <p><span className='job'>Job</span> : {profile.jobtitle}</p>
-        <p> <span className='pay'>Pay(/hr) </span>: {profile.pay}</p>
-        {profile.onholiday === 'true'?<p> <span className='holiday'>On-Holiday</span> : Yes</p> : <p> <span className='holiday'>On-Holiday</span> : No</p>}
+        <div className='w-full h-140 bg-white my-2 mb-10 px-6 py-5 pl-9 box-border rounded-tl-3xl relative leading-relaxed' key={profile.id}> 
+        <p className='font-customFont font-bold text-customColor'>{profile.firstname} {profile.lastname}</p> <button className='delete w-9 text-2xl absolute top-5 rounded-full hover:scale-110 hover:border-2  hover:border-customColor' onClick={()=>{deleteProfile(profile.id)}}>🗑️</button>
+        <p><span className='font-customFont'><b>Job</b></span> : {profile.jobtitle}</p>
+        <p> <span className='font-customFont'><b>Pay(/hr) </b></span>: {profile.pay}</p>
+        {profile.onholiday === 'true'?<p> <span className='font-customFont'><b>On-Holiday</b></span> : Yes</p> : <p> <span className='font-customFont'><b>On-Holiday</b></span> : No</p>}
         </div>
 
-        )):<p className='notavailable'>No Data Available</p>}
+        )):<p className='font-extrabold text-xl text-center'>No Data Available!!</p>}
     </>
 )
 }

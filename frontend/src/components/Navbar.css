@@ -1,15 +1,12 @@
-.navbar{
-    height: 90px;
-    background-color: white;
-    padding-left: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.navbar p{
-    font-weight: 900;
-    word-spacing: 1px;
-    font-size: 30px;
-    text-shadow: 5px 5px 10px gray;
-}
+
+.text-shadow-custom {
+    text-shadow: 5px 5px 10px gray; 
+  }
+
+  .tracking-wide {
+    word-spacing: 0.25rem;
+  }

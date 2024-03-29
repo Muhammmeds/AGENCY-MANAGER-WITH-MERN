@@ -137,50 +137,50 @@ const Home = () =>{
     return(
         <>
         <Navbar />
-        <div className="container">
-            <div className="sort">
-                <p>Sort</p>
-                <button onClick={sortByPay1}>Sort by Pay(ascending)</button> <br></br>
-                <button onClick={sortByPayDescending}>Sort by Pay(descending)</button> <br></br>
-                <p>Filter</p>
-                <button onClick={sortByHolidayYes}>OnHoliday(Yes)</button> <br></br>
-                <button onClick={sortByHolidayNo}>OnHoliday(No)</button> <br></br>
+        <div className="container bg-customColor2 min-h-400 m-0 flex justify-between">
+            <div className="sort mr-2">
+                <p className="underline mb-2 font-bold">Sort</p>
+                <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded" onClick={sortByPay1}>Sort by Pay(ascending)</button> <br></br>
+                <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded"onClick={sortByPayDescending}>Sort by Pay(descending)</button> <br></br>
+                <p className="underline mb-2 font-bold mt-3">Filter</p>
+                <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded"onClick={sortByHolidayYes}>OnHoliday(Yes)</button> <br></br>
+                <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded"onClick={sortByHolidayNo}>OnHoliday(No)</button> <br></br>
             </div>
             
-            <div className="box1">
+            <div className="box1 ml-20">
                 <ProfileDetails profiles = {profiles} setProfiles = {setProfiles}/>
             </div>
-            <div className="box2">
+            <div className="box2 w-400 mx-40 pl-30">
             <form>
-            <p className="add">Add Employee</p>
-            <label>First Name: <br></br>
-            <input type="text"
+            <p className="add font-bold font-customFont">Add Employee</p>
+            <label className="font-customFont">First Name: <br></br>
+            <input type="text" className="mb-2 border-none w-65 h-8 pl-2"
             value={firstname}
              onChange={(e)=>setFirstName(e.target.value)}/><br></br>
             </label>
-            <label>Last Name:<br></br>
-            <input type="text"
+            <label className="font-customFont">Last Name:<br></br>
+            <input type="text" className="mb-2 border-none w-65 h-8 pl-2"
             value={lastname}
             onChange={(e)=>setLastName(e.target.value) }/> <br></br>
             </label>
-            <label>Job Title:<br></br>
-            <input type="text"
+            <label className="font-customFont">Job Title:<br></br>
+            <input type="text" className="mb-2 border-none w-65 h-8 pl-2"
             value={jobTitle}
                 onChange={(e)=>setJobTitle(e.target.value) }/> <br></br>
             </label>
-            <label>Pay(/hr):<br></br>
-            <input type="number"
+            <label className="font-customFont">Pay(/hr):<br></br>
+            <input type="number" className="mb-2 border-none w-65 h-8 pl-2"
             value={pay}
                 onChange={(e)=>setPay(e.target.value) }/> <br></br>
             </label>
-            <label>On-Holiday:</label>
-            <select value={onHoliday} onChange={(e)=>setOnHoliday(e.target.value) }>
+            <label className="font-customFont">On-Holiday:</label>
+            <select className="w-24 ml-3" value={onHoliday} onChange={(e)=>setOnHoliday(e.target.value) }>
                 <option disabled selected defaultValue={null}></option>
                 <option value='true'>Yes</option>
                 <option value='false'>No</option>
             </select> <br></br>
-            {error && <p className="error">All input fields are required!!!</p>}
-            <button onClick={addEmployee}>Add Employer</button>
+            {error && <p className="text-red-600 font-bold text-xs mt-2 font-customFont">All input fields are required!!!</p>}
+            <button className="mt-4 bg-customColor text-white w-110 h-30 p-1 font-bold font-customFont rounded hover:scale-110  hover:border-2 hover:border-solid hover:border-black" onClick={addEmployee}>Add Employer</button>
             </form>
             </div>
         </div>
