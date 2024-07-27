@@ -14,70 +14,54 @@ const Home = () =>{
     const [pay , setPay] = useState('')
     const [onHoliday , setOnHoliday] = useState('')
     const [error , setError] = useState(false)
+    const [mobile , setMobile] = useState(false)
+    const[querymobile , setQueryMobile] = useState(false)
 
     const refCol = collection(db , 'workers')
 
-    const sortByPay1 = async() =>{
+    const fetchData = async (ref) => {
+      try{
+        const data = await getDocs(ref)
+        let rawData = []
+        data.docs.forEach((doc)=>{
+          rawData.push({...doc.data() , id:doc.id})
+        })
+        console.log(rawData)
+        setProfiles(rawData)
+      }
+      catch(err){
+        console.log(err)
+      }
+
+    }
+
+    const sortByPayAscending = async() =>{
         const q = query(refCol , orderBy('pay' , 'asc'))
-        try{
-            const data = await getDocs(q)
-            let rawData = []
-            data.docs.forEach((doc)=>{
-              rawData.push({...doc.data() , id:doc.id})
-            })
-            console.log(rawData)
-            setProfiles(rawData)
-          }
-          catch(err){
-            console.log(err)
-          }
+        fetchData(q)
+        setQueryMobile(false)
         
     }
     const sortByPayDescending = async() =>{
         const q = query(refCol , orderBy('pay' , 'desc'))
-        try{
-            const data = await getDocs(q)
-            let rawData = []
-            data.docs.forEach((doc)=>{
-              rawData.push({...doc.data() , id:doc.id})
-            })
-            console.log(rawData)
-            setProfiles(rawData)
-          }
-          catch(err){
-            console.log(err)
-          }
+        fetchData(q)
+        setQueryMobile(false)
+
+
     }
     const sortByHolidayYes = async() =>{
         const q = query(refCol , where('onholiday' , '==' , 'true'))
-        try{
-            const data = await getDocs(q)
-            let rawData = []
-            data.docs.forEach((doc)=>{
-              rawData.push({...doc.data() , id:doc.id})
-            })
-            console.log(rawData)
-            setProfiles(rawData)
-          }
-          catch(err){
-            console.log(err)
-          }
+        fetchData(q)
+        setQueryMobile(false)
+
+
     }
     
     const sortByHolidayNo = async() =>{
         const q = query(refCol , where('onholiday' , '==' , 'false'))
-        try{
-            const data = await getDocs(q)
-            let rawData = []
-            data.docs.forEach((doc)=>{
-              rawData.push({...doc.data() , id:doc.id})
-            })
-            console.log(rawData)
-            setProfiles(rawData)
-          }
-          catch(err){
-            console.log(err)
-          }
+        fetchData(q)
+        setQueryMobile(false)
+
+
     }
 
     const upperCase = (str) =>{
@@ -94,6 +78,7 @@ const Home = () =>{
     const getWorkers = async() =>{
         try{
             const data = await getDocs(refCol)
+            console.log(data)
             let rawData = []
             data.docs.forEach((doc)=>{
               rawData.push({...doc.data() , id:doc.id})
@@ -125,22 +110,29 @@ const Home = () =>{
             setPay('')
             setOnHoliday('')
             setError(false)
-            }
+            setMobile(false)            }
             catch(err){
                 console.log(err)
             }
         }
         
         }
+         const closeMobileForm = (e) =>{
+            if(e.target.classList.contains('box2mobile')){
+                setMobile(false)
+            }
+         }
     
 
     return(
         <>
-        <Navbar />
-        <div className="container bg-customColor2 min-h-400 m-0 flex justify-between">
-            <div className="sort mr-2">
+        <Navbar setMobile = {setMobile} mobile={mobile} querymobile={querymobile} setQueryMobile={setQueryMobile} />
+      
+      
+        <div className="container bg-customColor2 m-0 flex justify-between">
+            <div className={`sort mr-2 query ${querymobile ? 'queryshow' : ''}`} >
                 <p className="underline mb-2 font-bold">Sort</p>
-                <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded" onClick={sortByPay1}>Sort by Pay(ascending)</button> <br></br>
+                <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded" onClick={sortByPayAscending}>Sort by Pay(ascending)</button> <br></br>
                 <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded"onClick={sortByPayDescending}>Sort by Pay(descending)</button> <br></br>
                 <p className="underline mb-2 font-bold mt-3">Filter</p>
                 <button className="mt-2 border-none rounded-sm hover:scale-105 hover:border-solid hover:border-2 border-customColor hover:rounded"onClick={sortByHolidayYes}>OnHoliday(Yes)</button> <br></br>
@@ -150,8 +142,8 @@ const Home = () =>{
             <div className="box1 ml-20">
                 <ProfileDetails profiles = {profiles} setProfiles = {setProfiles}/>
             </div>
-            <div className="box2 w-400 mx-40 pl-30">
-            <form>
+            <div className={`box2 ${mobile ? 'box2mobile' : ''}`} onClick={closeMobileForm}>
+            <form className={ mobile ? 'formshow' : null}>
             <p className="add font-bold font-customFont">Add Employee</p>
             <label className="font-customFont">First Name: <br></br>
             <input type="text" className="mb-2 border-none w-65 h-8 pl-2"
@@ -179,11 +171,13 @@ const Home = () =>{
                 <option value='true'>Yes</option>
                 <option value='false'>No</option>
             </select> <br></br>
-            {error && <p className="text-red-600 font-bold text-xs mt-2 font-customFont">All input fields are required!!!</p>}
+            {error && <p className="text-red-600 font-bold text-xs mt-2 font-customFont error">All input fields are required!!!</p>}
+            
             <button className="mt-4 bg-customColor text-white w-110 h-30 p-1 font-bold font-customFont rounded hover:scale-110  hover:border-2 hover:border-solid hover:border-black" onClick={addEmployee}>Add Employer</button>
             </form>
             </div>
         </div>
+        
         </>
     )
 }
